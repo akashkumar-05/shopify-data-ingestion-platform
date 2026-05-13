@@ -1,0 +1,254 @@
+{
+  "info": {
+    "name": "Shopify Analytics API",
+    "description": "Complete API collection for testing Shopify Analytics backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "tenantId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Create Default Tenant",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    const response = pm.response.json();",
+              "    pm.collectionVariables.set('tenantId', response.tenantId);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/tenants/default",
+          "host": ["{{baseUrl}}"],
+          "path": ["tenants", "default"]
+        }
+      }
+    },
+    {
+      "name": "Get All Tenants",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/tenants",
+          "host": ["{{baseUrl}}"],
+          "path": ["tenants"]
+        }
+      }
+    },
+    {
+      "name": "Create Custom Tenant",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"storeName\": \"Test Store\",\n  \"shopDomain\": \"teststore\",\n  \"storeUrl\": \"https://teststore.myshopify.com\",\n  \"accessToken\": \"your_access_token_here\",\n  \"apiVersion\": \"2025-01\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/tenants",
+          "host": ["{{baseUrl}}"],
+          "path": ["tenants"]
+        }
+      }
+    },
+    {
+      "name": "Sync All Data",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sync/{{tenantId}}/all",
+          "host": ["{{baseUrl}}"],
+          "path": ["sync", "{{tenantId}}", "all"]
+        }
+      }
+    },
+    {
+      "name": "Sync Customers Only",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sync/{{tenantId}}/customers",
+          "host": ["{{baseUrl}}"],
+          "path": ["sync", "{{tenantId}}", "customers"]
+        }
+      }
+    },
+    {
+      "name": "Sync Orders Only",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sync/{{tenantId}}/orders",
+          "host": ["{{baseUrl}}"],
+          "path": ["sync", "{{tenantId}}", "orders"]
+        }
+      }
+    },
+    {
+      "name": "Sync Products Only",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sync/{{tenantId}}/products",
+          "host": ["{{baseUrl}}"],
+          "path": ["sync", "{{tenantId}}", "products"]
+        }
+      }
+    },
+    {
+      "name": "Get Overview Metrics",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/{{tenantId}}/overview",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "{{tenantId}}", "overview"]
+        }
+      }
+    },
+    {
+      "name": "Get Date Range Metrics",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/{{tenantId}}/metrics?startDate=2024-01-01T00:00:00&endDate=2024-12-31T23:59:59",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "{{tenantId}}", "metrics"],
+          "query": [
+            {
+              "key": "startDate",
+              "value": "2024-01-01T00:00:00"
+            },
+            {
+              "key": "endDate",
+              "value": "2024-12-31T23:59:59"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Daily Trends",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/{{tenantId}}/trends/daily?startDate=2024-01-01T00:00:00&endDate=2024-12-31T23:59:59",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "{{tenantId}}", "trends", "daily"],
+          "query": [
+            {
+              "key": "startDate",
+              "value": "2024-01-01T00:00:00"
+            },
+            {
+              "key": "endDate",
+              "value": "2024-12-31T23:59:59"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Top Customers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/{{tenantId}}/customers/top?limit=5",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "{{tenantId}}", "customers", "top"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Sales by City",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/{{tenantId}}/sales/by-city",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "{{tenantId}}", "sales", "by-city"]
+        }
+      }
+    },
+    {
+      "name": "Get Products by Category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/{{tenantId}}/products/by-category",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "{{tenantId}}", "products", "by-category"]
+        }
+      }
+    },
+    {
+      "name": "Get Inventory Metrics",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/{{tenantId}}/inventory",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "{{tenantId}}", "inventory"]
+        }
+      }
+    }
+  ]
+}
