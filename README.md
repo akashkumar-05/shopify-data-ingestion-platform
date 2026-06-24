@@ -1,7 +1,7 @@
 # Shopify Multi-Tenant Data Ingestion & Insights Platform
 
 **Application URL:**  
-[https://your-render-url.onrender.com](https://shopify-pulse.onrender.com/)
+[https://shopify-pulse.onrender.com/](https://shopify-pulse.onrender.com/)
 
 ## Overview
 
