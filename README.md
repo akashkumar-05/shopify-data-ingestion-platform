@@ -1,5 +1,8 @@
 # Shopify Multi-Tenant Data Ingestion & Insights Platform
 
+**Application URL:**  
+https://your-render-url.onrender.com
+
 ## Overview
 
 A multi-tenant Shopify analytics platform built using Spring Boot and PostgreSQL that ingests customer, order, and product data from Shopify stores into a centralized analytics dashboard.
