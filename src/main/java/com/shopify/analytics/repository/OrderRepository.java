@@ -2,6 +2,7 @@ package com.shopify.analytics.repository;
 
 import com.shopify.analytics.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -41,4 +42,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "FROM Order o WHERE o.tenantId = :tenantId AND o.city IS NOT NULL " +
             "GROUP BY o.city ORDER BY SUM(o.totalAmount) DESC")
     List<Object[]> getSalesByCity(@Param("tenantId") UUID tenantId);
+
+    @Modifying
+    @Query("DELETE FROM Order o WHERE o.tenantId = :tenantId")
+    void deleteByTenantId(@Param("tenantId") UUID tenantId);
 }

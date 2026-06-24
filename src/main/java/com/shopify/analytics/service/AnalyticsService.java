@@ -73,7 +73,10 @@ public class AnalyticsService {
                         customer.getFirstName() + " " + customer.getLastName(),
                         customer.getEmail(),
                         customer.getTotalSpent(),
-                        customer.getOrdersCount()
+                        customer.getOrdersCount(),
+                        (customer.getCity() != null ? customer.getCity() : "") + 
+                            (customer.getCity() != null && customer.getCountry() != null ? ", " : "") + 
+                            (customer.getCountry() != null ? customer.getCountry() : "")
                 })
                 .toList();
     }

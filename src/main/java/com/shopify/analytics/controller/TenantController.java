@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +23,11 @@ public class TenantController {
         return ResponseEntity.ok(tenantService.getAllActiveTenants());
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Tenant>> getTenantsByUser(@PathVariable UUID userId) {
+        return ResponseEntity.ok(tenantService.getTenantsByUserId(userId));
+    }
+
     @GetMapping("/{tenantId}")
     public ResponseEntity<Tenant> getTenant(@PathVariable UUID tenantId) {
         return tenantService.getTenantById(tenantId)
@@ -30,9 +36,21 @@ public class TenantController {
     }
 
     @PostMapping
-    public ResponseEntity<Tenant> createTenant(@RequestBody Tenant tenant) {
-        Tenant created = tenantService.createTenant(tenant);
-        return ResponseEntity.ok(created);
+    public ResponseEntity<?> createTenant(@RequestBody Tenant tenant, @RequestParam(required = false) UUID userId) {
+        try {
+            Tenant created;
+            if (userId != null) {
+                created = tenantService.createTenant(tenant, userId);
+            } else {
+                created = tenantService.createTenant(tenant);
+            }
+            return ResponseEntity.ok(created);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", e.getMessage()
+            ));
+        }
     }
 
     @PutMapping("/{tenantId}")

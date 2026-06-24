@@ -1,6 +1,7 @@
 package com.shopify.analytics.repository;
 import com.shopify.analytics.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,4 +26,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                                      @Param("endDate") LocalDateTime endDate);
 
     List<Customer> findByTenantIdAndCity(UUID tenantId, String city);
+
+    @Modifying
+    @Query("DELETE FROM Customer c WHERE c.tenantId = :tenantId")
+    void deleteByTenantId(@Param("tenantId") UUID tenantId);
 }

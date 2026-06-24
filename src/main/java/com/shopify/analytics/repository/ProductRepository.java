@@ -2,6 +2,7 @@ package com.shopify.analytics.repository;
 
 import com.shopify.analytics.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT SUM(p.inventoryCount) FROM Product p WHERE p.tenantId = :tenantId")
     Long getTotalInventoryByTenantId(@Param("tenantId") UUID tenantId);
+
+    @Modifying
+    @Query("DELETE FROM Product p WHERE p.tenantId = :tenantId")
+    void deleteByTenantId(@Param("tenantId") UUID tenantId);
 }

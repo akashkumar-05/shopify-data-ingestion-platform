@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login - Shopify Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #1e293b; min-height: 100vh; display: flex; }
+        
+        .layout-container { display: flex; width: 100%; max-width: 1200px; margin: auto; background: #fff; border-radius: 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); overflow: hidden; min-height: 600px; }
+        
+        /* Left Side: Features */
+        .features-section { flex: 1; background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; }
+        .features-section h1 { font-size: 2rem; font-weight: 700; margin-bottom: 32px; color: #f8fafc; }
+        .feature-list { list-style: none; display: flex; flex-direction: column; gap: 24px; }
+        .feature-item { display: flex; gap: 16px; align-items: flex-start; }
+        .feature-icon { width: 24px; height: 24px; background: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; flex-shrink: 0; margin-top: 4px; }
+        .feature-content h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 6px; color: #f1f5f9; }
+        .feature-content p { font-size: 0.9rem; color: #94a3b8; line-height: 1.5; }
+
+        /* Right Side: Auth Form */
+        .auth-section { flex: 1; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; background: #fff; }
+        .auth-container { max-width: 400px; width: 100%; margin: 0 auto; }
+        
+        h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; color: #1e293b; }
+        p.subtitle { color: #64748b; font-size: 0.95rem; margin-bottom: 32px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: #475569; }
+        input { width: 100%; padding: 12px 16px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.95rem; outline: none; transition: border-color 0.2s; color: #1e293b; }
+        input:focus { border-color: #3b82f6; }
+        .btn { width: 100%; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; border: none; transition: background 0.2s; }
+        .btn-primary { background: #2563eb; color: #fff; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-outline { background: #fff; color: #333; border: 1px solid #cbd5e1; margin-top: 12px; }
+        .btn-outline:hover { background: #f1f5f9; }
+        .form-error { color: #ef4444; font-size: 0.85rem; margin-top: 4px; display: none; }
+        .form-toggle { text-align: center; margin-top: 24px; font-size: 0.9rem; color: #64748b; }
+        .form-toggle a { color: #2563eb; cursor: pointer; text-decoration: none; font-weight: 600; }
+
+        @media(max-width: 768px) {
+            .layout-container { flex-direction: column; margin: 20px; border-radius: 12px; min-height: auto; }
+            .features-section { padding: 40px 24px; }
+            .auth-section { padding: 40px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-container">
+        <!-- Left Side -->
+        <div class="features-section">
+            <h1>Shopify Analytics</h1>
+            <ul class="feature-list">
+                <li class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div class="feature-content">
+                        <h3>Multi-Store Management</h3>
+                        <p>Connect and manage multiple Shopify stores from a single platform.</p>
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div class="feature-content">
+                        <h3>Automated Data Sync</h3>
+                        <p>Automatically sync customers, orders, and products from Shopify.</p>
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div class="feature-content">
+                        <h3>Real-Time Analytics</h3>
+                        <p>Track revenue, orders, customers, and sales trends through interactive dashboards.</p>
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div class="feature-content">
+                        <h3>Customer Insights</h3>
+                        <p>Identify top customers, purchasing patterns, and business growth opportunities.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Right Side -->
+        <div class="auth-section">
+            <div class="auth-container">
+                <div id="loginForm">
+                    <h2>Welcome Back</h2>
+                    <p class="subtitle">Sign in to your dashboard</p>
+                    <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com"/></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"/></div>
+                    <div class="form-error" id="loginError"></div>
+                    <button class="btn btn-primary" onclick="handleLogin()">Sign In</button>
+                    <button class="btn btn-outline" onclick="loginAsDemo()">Try Live Demo</button>
+                    <div class="form-toggle">Don't have an account? <a onclick="toggleForm('register')">Sign up</a></div>
+                </div>
+                
+                <div id="registerForm" style="display:none">
+                    <h2>Create Account</h2>
+                    <p class="subtitle">Start your analytics journey</p>
+                    <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="John Doe"/></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@example.com"/></div>
+                    <div class="form-group"><label>Company (optional)</label><input type="text" id="regCompany" placeholder="Your Company"/></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min 6 characters"/></div>
+                    <div class="form-error" id="registerError"></div>
+                    <button class="btn btn-primary" onclick="handleRegister()">Create Account</button>
+                    <div class="form-toggle">Already have an account? <a onclick="toggleForm('login')">Sign in</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin + "/api";
+
+        function toggleForm(type){
+            document.getElementById('loginForm').style.display = type==='login'?'block':'none';
+            document.getElementById('registerForm').style.display = type==='register'?'block':'none';
+        }
+
+        async function handleLogin(){
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+            errorEl.style.display='none';
+            try{
+                const res = await fetch(`${API_BASE}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+                const data = await res.json();
+                if(data.success){
+                    localStorage.setItem('sp_user',JSON.stringify(data));
+                    window.location.href='/Frontend.html';
+                } else {
+                    errorEl.textContent=data.message;errorEl.style.display='block';
+                }
+            }catch(e){errorEl.textContent='Connection error';errorEl.style.display='block'}
+        }
+
+        async function handleRegister(){
+            const fullName=document.getElementById('regName').value;
+            const email=document.getElementById('regEmail').value;
+            const companyName=document.getElementById('regCompany').value;
+            const password=document.getElementById('regPassword').value;
+            const errorEl=document.getElementById('registerError');
+            errorEl.style.display='none';
+            try{
+                const res = await fetch(`${API_BASE}/auth/register`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password,fullName,companyName})});
+                const data = await res.json();
+                if(data.success){
+                    localStorage.setItem('sp_user',JSON.stringify(data));
+                    window.location.href='/Frontend.html';
+                } else {
+                    errorEl.textContent=data.message;errorEl.style.display='block';
+                }
+            }catch(e){errorEl.textContent='Connection error';errorEl.style.display='block'}
+        }
+
+        function loginAsDemo(){
+            document.getElementById('loginEmail').value='akash05379@gmail.com';
+            document.getElementById('loginPassword').value='123456';
+            setTimeout(handleLogin,300);
+        }
+
+        if(localStorage.getItem('sp_user')){window.location.href='/Frontend.html'}
+    </script>
+</body>
+</html>
