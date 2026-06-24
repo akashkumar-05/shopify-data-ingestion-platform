@@ -1,0 +1,42 @@
+# Database Configuration (uses environment variables for Render deployment)
+spring.datasource.url=${DATABASE_URL:jdbc:postgresql://localhost:5432/xeno_db}
+spring.datasource.username=${DATABASE_USERNAME:postgres}
+spring.datasource.password=${DATABASE_PASSWORD:your_db_password}
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.open-in-view=false
+
+spring.jackson.serialization.write-dates-as-timestamps=false
+spring.jackson.deserialization.adjust-dates-to-context-time-zone=false
+
+server.port=${PORT:8080}
+
+# Logging Configuration
+logging.level.com.shopify.analytics=INFO
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} [%level] %logger{36} - %msg%n
+
+# Actuator Configuration
+management.endpoints.web.exposure.include=health,info,metrics
+management.endpoint.health.show-details=always
+
+# Default Shopify Configuration (demo store credentials via env vars)
+shopify.store.url=${SHOPIFY_STORE_URL:https://your-store.myshopify.com}
+shopify.api.version=${SHOPIFY_API_VERSION:2025-01}
+shopify.access.token=${SHOPIFY_ACCESS_TOKEN:your_shopify_access_token_here}
+shopify.sync.batch-size=250
+shopify.sync.retry-attempts=3
+
+# Connection Pool
+spring.datasource.hikari.maximum-pool-size=${HIKARI_MAX_POOL:10}
+spring.datasource.hikari.minimum-idle=${HIKARI_MIN_IDLE:3}
+spring.datasource.hikari.connection-timeout=30000
+
+# Demo mode - set to true for demo deployment
+app.demo-mode=${DEMO_MODE:false}
+app.demo-email=${DEMO_EMAIL:demo@example.com}
+app.demo-password=${DEMO_PASSWORD:password123}
